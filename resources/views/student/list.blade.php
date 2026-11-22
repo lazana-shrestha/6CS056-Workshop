@@ -1,54 +1,60 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Students</title>
-</head>
-<body>
+@extends('layouts.app')
 
-<h1>Students</h1>
+@section('title', 'Students')
 
-@if (session('success'))
-    <p>{{ session('success') }}</p>
-@endif
+@section('content')
 
-<a href="{{ route('students.create') }}">Create Student</a>
+<h1>Student List</h1>
+
+<a href="{{ route('students.create') }}">+ Add New Student</a>
 
 <hr>
 
-@forelse ($students as $student)
+@if ($students->count() > 0)
 
-    <div>
-        <h2>{{ $student->name }}</h2>
+    @foreach ($students as $student)
 
-        <p>Email: {{ $student->email }}</p>
-        <p>Phone: {{ $student->phone }}</p>
+        <div>
+            <h2>{{ $student->name }}</h2>
 
-        <a href="{{ route('students.show', $student->id) }}">
-            View
-        </a>
+            <p><strong>Email:</strong> {{ $student->email }}</p>
+            <p><strong>Phone:</strong> {{ $student->phone }}</p>
 
-        <a href="{{ route('students.edit', $student->id) }}">
-            Edit
-        </a>
+            <a href="{{ route('students.show', $student) }}">
+                View Details
+            </a>
 
-        <form action="{{ route('students.destroy', $student->id) }}"
-              method="POST"
-              style="display:inline;">
+            |
 
-            @csrf
-            @method('DELETE')
+            <a href="{{ route('students.edit', $student) }}">
+                Edit
+            </a>
 
-            <button type="submit">Delete</button>
-        </form>
-    </div>
+            |
 
-    <hr>
+            <form action="{{ route('students.destroy', $student) }}"
+                  method="POST"
+                  style="display: inline;">
 
-@empty
+                @csrf
+                @method('DELETE')
+
+                <button type="submit"
+                    onclick="return confirm('Are you sure you want to delete this student?')">
+                    Delete
+                </button>
+
+            </form>
+        </div>
+
+        <hr>
+
+    @endforeach
+
+@else
 
     <p>No students found.</p>
 
-@endforelse
+@endif
 
-</body>
-</html>
+@endsection

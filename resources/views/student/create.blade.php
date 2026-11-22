@@ -1,55 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Student</title>
-</head>
-<body>
+@extends('layouts.app')
 
-<h1>Create Student</h1>
+@section('title', 'Create Student')
 
-@if ($errors->any())
-    <div>
-        <strong>Please fix the following errors:</strong>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+@section('content')
 
-<form action="{{ route('students.store') }}" method="POST">
-    @csrf
+<h1>Create New Student</h1>
 
-    <div>
-        <label>Name:</label>
-        <input type="text" name="name" value="{{ old('name') }}">
-    </div>
+<x-student-form />
 
-    <div>
-        <label>Email:</label>
-        <input type="email" name="email" value="{{ old('email') }}">
-    </div>
+<br>
 
-    <div>
-        <label>Phone:</label>
-        <input type="text" name="phone" value="{{ old('phone') }}">
-    </div>
+<a href="{{ route('students.index') }}">
+    Back to Students
+</a>
 
-    <div>
-        <label>Address:</label>
-        <textarea name="address">{{ old('address') }}</textarea>
-    </div>
-
-    <div>
-        <label>Date of Birth:</label>
-        <input type="date" name="date_of_birth" value="{{ old('date_of_birth') }}">
-    </div>
-
-    <button type="submit">Create Student</button>
-</form>
-
-<a href="{{ route('students.index') }}">Back to Students</a>
-
-</body>
-</html>
+@endsection
